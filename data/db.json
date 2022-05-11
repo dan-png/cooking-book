@@ -36,6 +36,43 @@
       ],
       "method": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse minima ex rem quis similique eum ratione quaerat, voluptas molestias ut repudiandae delectus voluptates. Eius esse at tenetur ab accusamus excepturi?",
       "cookingTime": "35 minutes"
+    },
+    {
+      "title": "Fried Yam",
+      "ingredients": [
+        "yam",
+        "oil",
+        "salt",
+        "pepper"
+      ],
+      "method": "blah blah blah",
+      "cookingTime": "15 minutes",
+      "id": "VYk6TGM"
+    },
+    {
+      "title": "Fish Stew",
+      "ingredients": [
+        "fish",
+        "tomato",
+        "pepper",
+        "spices",
+        "oil"
+      ],
+      "method": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "cookingTime": "30 minutes",
+      "id": "-_zekNJ"
+    },
+    {
+      "title": "Noodle Jollof",
+      "ingredients": [
+        "noodles",
+        "tomatoes",
+        "sardines",
+        "spices"
+      ],
+      "method": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "cookingTime": "20 minutes",
+      "id": "iRNFIfK"
     }
   ]
 }
