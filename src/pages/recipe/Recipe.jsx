@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom'
-import { useFetch } from '../../hooks/useFetch'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../../firebase/config'
+import { useTheme } from '../../hooks/useTheme'
+import { useEffect, useState } from 'react'
 
 // Styles
 import './Recipe.css'
@@ -7,13 +10,34 @@ import './Recipe.css'
 
 
 function Recipe() {
+   const [data, setData] = useState(null)
+  const [isPending, setIsPending] = useState(false)
+  const [error, setError] = useState(false)
 
   const {id} = useParams()
-  const {data, isPending, error} = useFetch(`http://localhost:3000/recipes/${id}`)
+  const { mode } = useTheme()
+  
+  useEffect(() => {
+    setIsPending(true)
+
+    const docRef = doc(db, 'recipes', id)
+
+    getDoc(docRef)
+      .then((doc) => {
+        if (doc) {
+          setIsPending(false)
+          setData(doc.data())
+        } else{
+          setIsPending(false)
+          setError('Could not find recipe')
+        }
+      })
+
+  },[id])
 
   return (
     
-    <div className='recipe'>
+    <div className={`recipe ${mode}`}>
       {isPending && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {data && (
