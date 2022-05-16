@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, onSnapshot} from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { useTheme } from '../../hooks/useTheme'
 import { useEffect, useState } from 'react'
@@ -22,8 +22,7 @@ function Recipe() {
 
     const docRef = doc(db, 'recipes', id)
 
-    getDoc(docRef)
-      .then((doc) => {
+    const unsub = onSnapshot(docRef, (doc) => {
         if (doc) {
           setIsPending(false)
           setData(doc.data())
@@ -32,8 +31,11 @@ function Recipe() {
           setError('Could not find recipe')
         }
       })
-
-  },[id])
+      
+      return () => unsub()
+  }, [id])
+  
+  
 
   return (
     
@@ -48,7 +50,8 @@ function Recipe() {
             {data.ingredients.map(ingredient =>
               <li key={ingredient}>{ ingredient }</li>)}
           </ul>
-          <p className='method'>{ data.method}</p>
+          <p className='method'>{data.method}</p>
+          
         </>
       )}
     </div>

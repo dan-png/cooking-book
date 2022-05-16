@@ -13,7 +13,7 @@ function ThemeSelector() {
     changeMode(mode === 'light' ?'dark': 'light' )
   }
 
-  console.log(mode)
+  
   
 
 

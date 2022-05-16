@@ -1,7 +1,7 @@
 
 import { db } from '../../firebase/config'
 import { useState, useEffect } from 'react'
-import {collection, getDocs} from 'firebase/firestore'
+import {collection, onSnapshot} from 'firebase/firestore'
 
 // Styles
 import './Home.css'
@@ -20,19 +20,19 @@ function Home() {
     setIsPending(true)
     const colRef = collection(db, 'recipes')
 
-    getDocs(colRef)
-      .then(snapshot => {
+  const unsub =  onSnapshot(colRef,(snapshot => {
         let results = []
         snapshot.docs.forEach(doc => {
           results.push({...doc.data(), id:doc.id})
         })
         setData(results)
         setIsPending(false)
+    }), (err) => {
+      setError(err.message)
+      setIsPending(false)
       })
-      .catch(err => {
-        setError(err.message)
-        setIsPending(false)
-      })
+      
+      return () => unsub()
   },[])
   
 

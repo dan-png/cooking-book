@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import {  useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useFetch } from '../../hooks/useFetch'
+import { db } from '../../firebase/config'
+import { collection, addDoc } from 'firebase/firestore'
+import { useTheme } from '../../hooks/useTheme'
+
 
 // Styles
 import './Create.css'
@@ -17,16 +20,28 @@ function Create() {
 
   const navigate = useNavigate()
 
-  const {postData, data} = useFetch('http://localhost:3000/recipes', 'POST')
+  const { mode } = useTheme()
   
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    postData({ title, ingredients, method, cookingTime: cookingTime + ' minutes' })
+    const doc = { title, ingredients, method, cookingTime: cookingTime + ' minutes' }
 
-   
+    const colRef = collection(db, 'recipes')
+
+    try {
+      await addDoc(colRef, doc)
+      navigate('/')
+    } catch (err) {
+      console.log(err)
+    }
 
     
+      
+      
+
+   
     
   }
 
@@ -42,14 +57,14 @@ function Create() {
   }
 
   // Redirect the user when we get data response
-  useEffect(() => {
-    if (data) {
-      navigate('/')
-    }
-  }, [data, navigate])
+  // useEffect(() => {
+  //   if (data) {
+  //     navigate('/')
+  //   }
+  // }, [data, navigate])
 
   return (
-    <div className="create">
+    <div className={`create ${mode}`}>
       <h2 className="page-title">Add a New Recipe</h2>
       <form onSubmit={handleSubmit}>
 
